@@ -1,5 +1,6 @@
 package com.nyu.wds;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,14 +20,26 @@ public class WDSTest implements RequestHandler<WDSTestRequest, WDSTestResponse>{
 			   con = DriverManager.getConnection(
 			     "jdbc:mysql://wds.crpjfc57axcp.us-east-2.rds.amazonaws.com/wds", "asif", "asif54321");
 			 }
-			   context.getLogger().log("Test Started");
-			   String query = input.getQuery();
-			   Statement statement = con.createStatement();
-			   //System.out.println(statement.execute(query));
-			   ResultSet resultSet = statement.executeQuery(query); 
-			   System.out.println(resultSet.toString());
-			   WDSTestResponse resp = new WDSTestResponse("Asif", "Hasnain");
-			   return resp;
+			 
+			 CallableStatement statement = con.prepareCall("{call get_customer_details(11111716)}");
+			 
+			// setting input parameters on the statement object
+			// statement.setString(parameterIndex, parameterValue);
+			 
+			 statement.execute();
+			 ResultSet resultSet = statement.getResultSet();
+			 while (resultSet.next()) {
+			        // retrieve values of fields
+			String fName = resultSet.getString("first_name");
+			System.out.println(fName);
+			    }
+			 
+//			   context.getLogger().log("Test Started");
+//			   String query = input.getQuery();
+//			   Statement statement = con.createStatement();
+//			   //System.out.println(statement.execute(query));
+//			   ResultSet resultSet = statement.executeQuery(query); 
+//			   System.out.println(resultSet.toString());
 //			   if (resultSet.next()) {
 //			    return resultSet.toString();
 //			   }
