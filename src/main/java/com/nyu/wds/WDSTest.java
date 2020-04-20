@@ -26,7 +26,7 @@ public class WDSTest implements RequestHandler<WDSTestRequest, WDSTestResponse>{
 			// setting input parameters on the statement object
 			// statement.setString(parameterIndex, parameterValue);
 			 
-			 statement.execute();
+			 statement.execute(); 
 			 ResultSet resultSet = statement.getResultSet();
 			 while (resultSet.next()) {
 			        // retrieve values of fields
