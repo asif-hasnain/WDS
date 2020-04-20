@@ -23,7 +23,7 @@ public class WDSTest implements RequestHandler<WDSTestRequest, WDSTestResponse>{
 			   String query = input.getQuery();
 			   Statement statement = con.createStatement();
 			   //System.out.println(statement.execute(query));
-			   ResultSet resultSet = statement.executeQuery(query);
+			   ResultSet resultSet = statement.executeQuery(query); 
 			   System.out.println(resultSet.toString());
 			   WDSTestResponse resp = new WDSTestResponse("Asif", "Hasnain");
 			   return resp;
