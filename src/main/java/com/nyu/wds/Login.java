@@ -11,6 +11,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.nyu.wds.dbmapper.User;
 import com.nyu.wds.util.CommonUtil;
 import com.nyu.wds.util.Constant;
+import com.nyu.wds.util.DBUtil;
 import com.nyu.wds.util.JDBCConnection;
 import com.nyu.wds.util.ResultSetObjectMapper;
 
@@ -18,6 +19,7 @@ public class Login implements RequestHandler<LoginRequest, LoginResponse>{
 	Connection con = null;
 	@Override
 	public LoginResponse handleRequest(LoginRequest input, Context context) {
+		System.out.println("input: "+ input);
 		if(input == null || !CommonUtil.isValidString(input.getPassword())) {
 			return new LoginResponse(new Response(Constant.DEFAULT_ERROR, Constant.DEFAULT_ERROR_MSG));
 		} else if(!CommonUtil.isValidEmail(input.getEmailId())) {
@@ -25,23 +27,30 @@ public class Login implements RequestHandler<LoginRequest, LoginResponse>{
 		}
 		con = JDBCConnection.getJDBCCOnnection(con, 0);
 		 try {
-			 String query = "{call " + Constant.GET_USER_BY_EMAIL_ID + "}";
+			 String query = "{call " + DBUtil.GET_USER_BY_EMAIL_ID + "}";
 			 System.out.println("Query: "+ query);
 			 CallableStatement statement = con.prepareCall(query);
 			 statement.setString(1, input.getEmailId());
+			 System.out.println(statement.toString());
 			 boolean statementResultType = statement.execute();
 			 System.out.println("statementResultType : "+statementResultType);
 			 if(statementResultType) {
 				 ResultSet resultSet = statement.getResultSet();
 				 List<User> userList = ResultSetObjectMapper.mapRersultSetToObject(resultSet, User.class);
+				 statement.close();
 				 if(userList == null || userList.size() == 0) {
 					return new LoginResponse(new Response(Constant.INCORRECT_EMAIL_ADDRESS_OR_PASSWORD, Constant.INCORRECT_EMAIL_ADDRESS_OR_PASSWORD_MSG));
 				 } else if(userList.size() > 1) {
 						return new LoginResponse(new Response(Constant.DEFAULT_ERROR, Constant.DEFAULT_ERROR_MSG));
 				 }else if(CommonUtil.isValidString(userList.get(0).getPassword()) && checkLoginCredentials(userList.get(0).getPassword(), input.getPassword())) {
-						return new LoginResponse(new Response(Constant.SUCCESS, 
-								Constant.SUCCESS_MSG), userList.get(0).getFirst_name()+" "+userList.get(0).getLast_name(),userList.get(0).getUser_id());
-				 }else {
+						
+					 String authKey = DBUtil.addAuthenticationDetails(userList.get(0).getUser_id(), con);
+					 System.out.println("authKey :" + authKey);
+					 if(CommonUtil.isValidString(authKey)) {
+						 return new LoginResponse(new Response(Constant.SUCCESS, 
+									Constant.SUCCESS_MSG), userList.get(0).getFirst_name()+" "+userList.get(0).getLast_name(),userList.get(0).getUser_id(),"c#"+authKey+"#"+userList.get(0).getUser_id());
+					 	}
+					 }else {
 						return new LoginResponse(new Response(Constant.INCORRECT_EMAIL_ADDRESS_OR_PASSWORD, Constant.INCORRECT_EMAIL_ADDRESS_OR_PASSWORD_MSG));
 				 }
 			 }

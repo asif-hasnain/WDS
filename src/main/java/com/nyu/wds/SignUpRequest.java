@@ -131,23 +131,4 @@ public class SignUpRequest {
 				+ "]";
 	}
 
-	public LoginResponse validateInput() {
-
-		if (this == null || !CommonUtil.isValidString(this.getPassword())
-				|| (CommonUtil.isValidString(this.getGender())
-						&& !(this.getGender().equalsIgnoreCase("F") || this.getGender().equalsIgnoreCase("M")))
-				|| !CommonUtil.isValidName(this.getFirstName()) || !CommonUtil.isValidName(this.getLastName())
-				|| !CommonUtil.isValidString(this.getMarital_status())
-				|| !(this.getMarital_status().equalsIgnoreCase("M") || this.getMarital_status().equalsIgnoreCase("S")
-						||  this.getMarital_status().equalsIgnoreCase("W"))
-				|| !CommonUtil.isValidString(this.getSt_address()) || !CommonUtil.isValidString(this.getCity())
-				|| !CommonUtil.isValidString(this.getState()) || this.getState().length() != 2
-				|| !CommonUtil.isValidString(this.getZipcode()) || this.getZipcode().length() != 5
-				|| !CommonUtil.isValidString(this.getUser_type())) {
-			return new LoginResponse(new Response(Constant.INVALID_INPUT, Constant.INVALID_INPUT_MSG));
-		} else if (!CommonUtil.isValidEmail(this.getEmailId())) {
-			return new LoginResponse(new Response(Constant.INVALID_EMAIL_ADDRESS, Constant.INVALID_EMAIL_ADDRESS_MSG));
-		}
-		return new LoginResponse(new Response(Constant.SUCCESS, Constant.SUCCESS_MSG));
-	}
 }

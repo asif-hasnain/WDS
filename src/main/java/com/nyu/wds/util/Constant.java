@@ -20,10 +20,8 @@ public class Constant {
 	public static final String INVALID_NAME_FORMAT_MSG = "Inavlid name format";
 	public static final int EMAIL_ADDRESS_ALREADY_EXIST = 9994;
 	public static final String EMAIL_ADDRESS_ALREADY_EXIST_MSG = "Email address already exist";
-	public static String GET_USER_BY_USER_ID = "get_user_details(?)";
-	public static String GET_USER_BY_EMAIL_ID = "get_user_by_emailid(?)";
-	public static String ADD_NEW_USER = "add_new_user(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	
+	public static final int NO_INSURANCE_DATA_FOUND = 9993;
+	public static final String NO_INSURANCE_DATA_FOUND_MSG = "You do not have any insurance with us.";
 	
 	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
 			Pattern.compile("^[a-zA-Z0-9+_.-]+@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
