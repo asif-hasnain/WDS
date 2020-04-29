@@ -22,7 +22,9 @@ public class Constant {
 	public static final String EMAIL_ADDRESS_ALREADY_EXIST_MSG = "Email address already exist";
 	public static final int NO_INSURANCE_DATA_FOUND = 9993;
 	public static final String NO_INSURANCE_DATA_FOUND_MSG = "You do not have any insurance with us.";
-	
+	public static final int NO_INVOICE_FOUND = 9993;
+	public static final String NO_INVOICE_FOUND_MSG = "Invoice not availble.";
+
 	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
 			Pattern.compile("^[a-zA-Z0-9+_.-]+@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 	public static final Pattern VALID_NAME_REGEX = 

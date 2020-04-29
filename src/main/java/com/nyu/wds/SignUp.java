@@ -32,12 +32,18 @@ public class SignUp implements RequestHandler<SignUpRequest, LoginResponse>{
 				|| !CommonUtil.isValidString(input.getSt_address()) || !CommonUtil.isValidString(input.getCity())
 				|| !CommonUtil.isValidString(input.getState()) || input.getState().length() != 2
 				|| !CommonUtil.isValidString(input.getZipcode()) || input.getZipcode().length() != 5
-				|| !CommonUtil.isValidString(input.getUser_type()) || (input.getUser_type().equalsIgnoreCase("E") && 
+				|| !CommonUtil.isValidString(input.getUser_type()) || !(input.getUser_type().equalsIgnoreCase("C") || input.getUser_type().equalsIgnoreCase("E"))
+				||(input.getUser_type().equalsIgnoreCase("E") && 
 						(!CommonUtil.isValidString(input.getEmp_department()) || !CommonUtil.isValidString(input.getDesignation())))) {
 			return new LoginResponse(new Response(Constant.INVALID_INPUT, Constant.INVALID_INPUT_MSG));
 		} else if (!CommonUtil.isValidEmail(input.getEmailId())) {
 			return new LoginResponse(new Response(Constant.INVALID_EMAIL_ADDRESS, Constant.INVALID_EMAIL_ADDRESS_MSG));
 		}
+		try{
+			  Integer.parseInt(input.getZipcode());
+			} catch (NumberFormatException e) {
+				return new LoginResponse(new Response(Constant.INVALID_INPUT, Constant.INVALID_INPUT_MSG));
+			}
 		con = JDBCConnection.getJDBCCOnnection(con, 0);
 		 try {
 			 String query = "{call " + DBUtil.GET_USER_BY_EMAIL_ID + "}";
@@ -63,18 +69,18 @@ public class SignUp implements RequestHandler<SignUpRequest, LoginResponse>{
 			 }
 			 
 			 statement1.setInt(1,user_id);
-			 statement1.setString(2,input.getFirstName());
-			 statement1.setString(3,input.getLastName());
-			 statement1.setString(4,input.getGender());
-			 statement1.setString(5,input.getMarital_status());
-			 statement1.setString(6,input.getSt_address());
-			 statement1.setString(7,input.getCity());
-			 statement1.setString(8,input.getState());
+			 statement1.setString(2,input.getFirstName().toUpperCase());
+			 statement1.setString(3,input.getLastName().toUpperCase());
+			 statement1.setString(4,input.getGender().toUpperCase());
+			 statement1.setString(5,input.getMarital_status().toUpperCase());
+			 statement1.setString(6,input.getSt_address().toUpperCase());
+			 statement1.setString(7,input.getCity().toUpperCase());
+			 statement1.setString(8,input.getState().toUpperCase());
 			 statement1.setString(9,input.getZipcode());
 			 statement1.setString(10,input.getUser_type());
 			 statement1.setString(11,input.getDesignation());
 			 statement1.setString(12,input.getEmp_department());
-			 statement1.setString(13,input.getEmailId());
+			 statement1.setString(13,input.getEmailId().toLowerCase());
 			 statement1.setString(14,CommonUtil.hash256Calculator(input.getPassword()));
 			 String authKey = UUID.randomUUID().toString();
 			 statement1.setString(15, authKey);
@@ -84,9 +90,13 @@ public class SignUp implements RequestHandler<SignUpRequest, LoginResponse>{
 			 
 			 if(!statementResultType1 && statement1.getUpdateCount() == 1) {
 				 statement1.close();
-				 return new LoginResponse(new Response(Constant.SUCCESS, 
+				 if(input.getUser_type().equalsIgnoreCase("C")) {
+					 return new LoginResponse(new Response(Constant.SUCCESS, 
 						Constant.SUCCESS_MSG), input.getFirstName()+" "+ input.getLastName(),user_id,"c#"+authKey+"#"+user_id);
-			 }
+				 	} else if(input.getUser_type().equalsIgnoreCase("E")) {
+				 		return new LoginResponse(new Response(Constant.SUCCESS, Constant.SUCCESS_MSG));
+				 	}
+				 }
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

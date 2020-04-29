@@ -21,7 +21,7 @@ public class InsuranceDetails implements RequestHandler<InsuranceDetailsRequest,
 		con = JDBCConnection.getJDBCCOnnection(con, 0);
 		Map<Integer, InsurancePolicy> policyMap = DBUtil.getInsuranceDetails(input.getUserId(), con);
 		if(policyMap == null || policyMap.size() ==0) {
-			return new InsuranceDetailsResponse(new Response(Constant.INVALID_INPUT, Constant.INVALID_INPUT_MSG));
+			return new InsuranceDetailsResponse(new Response(Constant.NO_INSURANCE_DATA_FOUND, Constant.NO_INSURANCE_DATA_FOUND_MSG));
 		}
 		return new InsuranceDetailsResponse(new Response(Constant.SUCCESS, Constant.SUCCESS_MSG),
 				policyMap);		

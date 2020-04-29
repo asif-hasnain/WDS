@@ -2,7 +2,6 @@ package com.nyu.wds;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.Calendar;
 import java.util.Random;
 

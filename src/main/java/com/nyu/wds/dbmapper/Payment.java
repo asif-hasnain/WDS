@@ -14,18 +14,20 @@ public class Payment {
 	private Date payment_date;
 	@Column(name = "payment_method")
 	private String payment_method;
+	@Column(name = "payment_amount")
+	private double payment_amount;
 	@Column(name = "invoice_id")
 	private int invoice_id;
 	public Payment() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Payment(int payment_id, Date payment_date, String payment_method, int invoice_id) {
+	public Payment(int payment_id, Date payment_date, String payment_method, double payment_amount) {
 		super();
 		this.payment_id = payment_id;
 		this.payment_date = payment_date;
 		this.payment_method = payment_method;
-		this.invoice_id = invoice_id;
+		this.payment_amount = payment_amount;
 	}
 	public int getPayment_id() {
 		return payment_id;
@@ -51,9 +53,16 @@ public class Payment {
 	public void setInvoice_id(int invoice_id) {
 		this.invoice_id = invoice_id;
 	}
+	public double getPayment_amount() {
+		return payment_amount;
+	}
+	public void setPayment_amount(double payment_amount) {
+		this.payment_amount = payment_amount;
+	}
 	@Override
 	public String toString() {
 		return "Payment [payment_id=" + payment_id + ", payment_date=" + payment_date + ", payment_method="
-				+ payment_method + ", invoice_id=" + invoice_id + "]";
+				+ payment_method + ", payment_amount=" + payment_amount + ", invoice_id=" + invoice_id + "]";
 	}
+
 }
