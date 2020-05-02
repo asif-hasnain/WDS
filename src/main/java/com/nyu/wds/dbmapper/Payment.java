@@ -22,13 +22,16 @@ public class Payment {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Payment(int payment_id, Date payment_date, String payment_method, double payment_amount) {
+
+	public Payment(int payment_id, Date payment_date, String payment_method, double payment_amount, int invoice_id) {
 		super();
 		this.payment_id = payment_id;
 		this.payment_date = payment_date;
 		this.payment_method = payment_method;
 		this.payment_amount = payment_amount;
+		this.invoice_id = invoice_id;
 	}
+
 	public int getPayment_id() {
 		return payment_id;
 	}

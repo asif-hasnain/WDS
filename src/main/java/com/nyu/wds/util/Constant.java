@@ -24,6 +24,8 @@ public class Constant {
 	public static final String NO_INSURANCE_DATA_FOUND_MSG = "You do not have any insurance with us.";
 	public static final int NO_INVOICE_FOUND = 9993;
 	public static final String NO_INVOICE_FOUND_MSG = "Invoice not availble.";
+	public static final int DATA_NOT_AVAILABLE = 9992;
+	public static final String DATA_NOT_AVAILABE_MSG = "Data not availble.";
 
 	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
 			Pattern.compile("^[a-zA-Z0-9+_.-]+@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", Pattern.CASE_INSENSITIVE);

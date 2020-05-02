@@ -1,14 +1,13 @@
 package com.nyu.wds;
 
-import com.nyu.wds.util.CommonUtil;
 
 public class ProfileDetailsResponse {
 	private Response response;
 	private String firstName;
 	private String lastName;
 	private String gender;
-	private String maritalStatus;
-	private String streetAddress;
+	private String marital_status;
+	private String st_address;
 	private String city;
 	private String state;
 	private String zipcode;
@@ -34,8 +33,8 @@ public class ProfileDetailsResponse {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.gender = gender;
-		this.maritalStatus = maritalStatus;
-		this.streetAddress = streetAddress;
+		this.marital_status = maritalStatus;
+		this.st_address = streetAddress;
 		this.city = city;
 		this.state = state;
 		this.zipcode = zipcode;
@@ -68,18 +67,22 @@ public class ProfileDetailsResponse {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public String getMaritalStatus() {
-		return maritalStatus;
+	public String getMarital_status() {
+		return marital_status;
 	}
-	public void setMaritalStatus(String maritalStatus) {
-		this.maritalStatus = maritalStatus;
+
+	public void setMarital_status(String marital_status) {
+		this.marital_status = marital_status;
 	}
-	public String getStreetAddress() {
-		return streetAddress;
+
+	public String getSt_address() {
+		return st_address;
 	}
-	public void setStreetAddress(String streetAddress) {
-		this.streetAddress = streetAddress;
+
+	public void setSt_address(String st_address) {
+		this.st_address = st_address;
 	}
+
 	public String getCity() {
 		return city;
 	}
@@ -122,12 +125,14 @@ public class ProfileDetailsResponse {
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
+
 	@Override
 	public String toString() {
 		return "ProfileDetailsResponse [response=" + response + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", gender=" + gender + ", maritalStatus=" + maritalStatus + ", streetAddress=" + streetAddress
-				+ ", city=" + city + ", state=" + state + ", zipcode=" + zipcode + ", userType=" + userType
-				+ ", designation=" + designation + ", department=" + department + ", emailId=" + emailId + "]";
+				+ ", gender=" + gender + ", marital_status=" + marital_status + ", st_address=" + st_address + ", city="
+				+ city + ", state=" + state + ", zipcode=" + zipcode + ", userType=" + userType + ", designation="
+				+ designation + ", department=" + department + ", emailId=" + emailId + "]";
 	}
+
 	
 }

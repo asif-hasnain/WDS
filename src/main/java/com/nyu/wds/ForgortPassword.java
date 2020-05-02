@@ -25,7 +25,7 @@ public class ForgortPassword implements RequestHandler<ForgortPasswordRequest, R
 				return new Response(Constant.SUCCESS, Constant.SUCCESS_MSG);
 			}
 		}
-		return new Response(Constant.INVALID_INPUT, Constant.INVALID_INPUT_MSG);
+		return new Response(Constant.DEFAULT_ERROR, Constant.DEFAULT_ERROR_MSG);
 	}
 
 }

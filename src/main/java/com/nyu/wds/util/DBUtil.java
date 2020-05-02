@@ -42,8 +42,11 @@ public class DBUtil {
 	public static String GET_ACCESS_DETAILS = "get_access_details(?,?)";
 	public static String GET_RESTRICTED_FEATURE = "get_restricted_feature(?)";
 	public static String UPDATE_PASSWORD = "update_password(?,?)";
+	public static String PROVIDE_ACCESS = "provide_access(?,?)";
+	public static String DELETE_RECORD = "delete_record(?,?,?,?,?)";
+	public static String GET_CUSTOMER_LIST = "get_customer_list()";
+	public static String UPDATE_USER_DETAILS = "update_user_details(?,?,?,?,?,?,?,?,?)";
 
-	
 	
 	public static final String Home = "H";
 	public static final String Vehicle = "A";
@@ -342,7 +345,7 @@ public class DBUtil {
 					Invoice invoice = invoiceMap.getOrDefault(invoice_id, new Invoice(invoice_id, invoice_date,
 							payment_due_date, invoice_amount, policy_id, new ArrayList<Payment>(), invoice_amount));
 					double paymentDue = invoice.getPaymentDue();
-					Payment payment = new Payment(payment_id, payment_date, payment_method, payment_amount);
+					Payment payment = new Payment(payment_id, payment_date, payment_method, payment_amount,invoice_id);
 					paymentDue -= payment_amount;
 					List<Payment> paymentList = invoice.getPaymentList();
 					paymentList.add(payment);
@@ -438,6 +441,96 @@ public class DBUtil {
 			CallableStatement statement = con.prepareCall(query);
 			statement.setString(1, emailId);
 			statement.setString(2, CommonUtil.hash256Calculator(password));
+			System.out.println(statement.toString());
+			boolean statementResultType = statement.execute();
+			System.out.println("statementResultType1 :" + statementResultType + "  " + statement.getUpdateCount());
+			if (!statementResultType && statement.getUpdateCount() == 1) {
+				statement.close();
+				return true;
+			}
+			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public static boolean provideAccess(int featureId, int userId, Connection con) {
+		try {
+			String query = "{call " + PROVIDE_ACCESS + "}";
+			System.out.println("Query: " + query);
+			CallableStatement statement = con.prepareCall(query);
+			statement.setInt(1, featureId);
+			statement.setInt(2, userId);
+			System.out.println(statement.toString());
+			boolean statementResultType = statement.execute();
+			System.out.println("statementResultType1 :" + statementResultType + "  " + statement.getUpdateCount());
+			if (!statementResultType && statement.getUpdateCount() == 1) {
+				statement.close();
+				return true;
+			}
+			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public static boolean deleteRecord(String tableName, int intId1, int intId2,String strId1, String strId2, Connection con) {
+		try {
+			String query = "{call " + DELETE_RECORD + "}";
+			System.out.println("Query: " + query);
+			CallableStatement statement = con.prepareCall(query);
+			statement.setString(1, tableName);
+			statement.setInt(2, intId1);
+			statement.setInt(3, intId2);
+			statement.setString(4, strId1);
+			statement.setString(5, strId2);
+			System.out.println(statement.toString());
+			boolean statementResultType = statement.execute();
+			System.out.println("statementResultType1 :" + statementResultType + "  " + statement.getUpdateCount());
+			if (!statementResultType && statement.getUpdateCount() >= 1) {
+				statement.close();
+				return true;
+			}
+			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public static List<User> getCustomerList(Connection con) {
+		try {
+			String query = "{call " + GET_CUSTOMER_LIST + "}";
+			System.out.println("Query: " + query);
+			CallableStatement statement = con.prepareCall(query);
+			System.out.println(statement.toString());
+			statement.execute();
+			ResultSet resultSet = statement.getResultSet();
+			List<User> userList = ResultSetObjectMapper.mapRersultSetToObject(resultSet, User.class);
+			statement.close();
+			if (userList != null && userList.size() >= 1) {
+				return userList;
+			}
+			return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public static boolean updateUserDetails(int userId, String firstName, String lastName, String gender, String maritalStatus,
+			String stAddress, String city, String state, String zipcode, Connection con) {
+		try {
+			String query = "{call " + UPDATE_USER_DETAILS + "}";
+			System.out.println("Query: " + query);
+			CallableStatement statement = con.prepareCall(query);
+			statement.setInt(1, userId);
+			statement.setString(2, firstName);
+			statement.setString(3, lastName);
+			statement.setString(4, gender);
+			statement.setString(5, maritalStatus);
+			statement.setString(6, stAddress);
+			statement.setString(7, city);
+			statement.setString(8, state);
+			statement.setString(9, zipcode);
 			System.out.println(statement.toString());
 			boolean statementResultType = statement.execute();
 			System.out.println("statementResultType1 :" + statementResultType + "  " + statement.getUpdateCount());
