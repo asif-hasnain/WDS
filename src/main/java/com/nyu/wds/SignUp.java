@@ -1,5 +1,6 @@
 package com.nyu.wds;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -7,6 +8,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+
+import org.acegisecurity.util.EncryptionUtils.EncryptionException;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
@@ -71,7 +74,7 @@ public class SignUp implements RequestHandler<SignUpRequest, LoginResponse>{
 			 statement1.setInt(1,user_id);
 			 statement1.setString(2,input.getFirstName().toUpperCase());
 			 statement1.setString(3,input.getLastName().toUpperCase());
-			 statement1.setString(4,input.getGender().toUpperCase());
+			 statement1.setString(4,input.getGender());
 			 statement1.setString(5,input.getMarital_status().toUpperCase());
 			 statement1.setString(6,input.getSt_address().toUpperCase());
 			 statement1.setString(7,input.getCity().toUpperCase());
@@ -94,7 +97,7 @@ public class SignUp implements RequestHandler<SignUpRequest, LoginResponse>{
 					 return new LoginResponse(new Response(Constant.SUCCESS, 
 						Constant.SUCCESS_MSG), input.getFirstName()+" "+ input.getLastName(),user_id,"c#"+authKey+"#"+user_id);
 				 	} else if(input.getUser_type().equalsIgnoreCase("E")) {
-				 		return new LoginResponse(new Response(Constant.SUCCESS, Constant.SUCCESS_MSG));
+				 		return new LoginResponse(new Response(Constant.SUCCESS, Constant.SUCCESS_MSG),input.getFirstName()+" "+ input.getLastName(),user_id);
 				 	}
 				 }
 		} catch (SQLException e) {

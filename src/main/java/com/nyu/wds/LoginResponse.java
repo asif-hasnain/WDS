@@ -16,6 +16,13 @@ public class LoginResponse {
 		this.userId = userId;
 		this.auth_key = auth_key;
 	}
+	
+	public LoginResponse(Response response, String name, int userId) {
+		super();
+		this.response = response;
+		this.name = name;
+		this.userId = userId;
+	}
 	public LoginResponse(Response response) {
 		super();
 		this.response = response;

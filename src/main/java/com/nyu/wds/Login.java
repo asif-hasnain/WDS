@@ -47,9 +47,17 @@ public class Login implements RequestHandler<LoginRequest, LoginResponse>{
 					 String authKey = DBUtil.addAuthenticationDetails(userList.get(0).getUser_id(), con);
 					 System.out.println("authKey :" + authKey);
 					 if(CommonUtil.isValidString(authKey)) {
+						 if(userList.get(0).getUser_type().equalsIgnoreCase(DBUtil.Employee)) {
+							 return new LoginResponse(new Response(Constant.SUCCESS, 
+										Constant.SUCCESS_MSG), userList.get(0).getFirst_name()+" "+userList.get(0).getLast_name()
+									 ,userList.get(0).getUser_id(),"e#"+authKey+"#"+userList.get(0).getUser_id());
+						 } else {
 						 return new LoginResponse(new Response(Constant.SUCCESS, 
-									Constant.SUCCESS_MSG), userList.get(0).getFirst_name()+" "+userList.get(0).getLast_name(),userList.get(0).getUser_id(),"c#"+authKey+"#"+userList.get(0).getUser_id());
-					 	}
+									Constant.SUCCESS_MSG), userList.get(0).getFirst_name()+" "+userList.get(0).getLast_name()
+								 ,userList.get(0).getUser_id(),"c#"+authKey+"#"+userList.get(0).getUser_id());
+					 	
+						 }
+						 }
 					 }else {
 						return new LoginResponse(new Response(Constant.INCORRECT_EMAIL_ADDRESS_OR_PASSWORD, Constant.INCORRECT_EMAIL_ADDRESS_OR_PASSWORD_MSG));
 				 }

@@ -34,7 +34,7 @@ public class ApplyInsurance implements RequestHandler<ApplyInsuranceRequest, App
 			if(input.getHomeList() != null && input.getHomeList().size()>0) {
 				double totalPurchaseValue = 0;
 				for(Home home : input.getHomeList()) {
-					if(home == null || home.getPurchase_value() == 0 || home.getArea() == 0 && !CommonUtil.isValidString(home.getHome_type())
+					if(home == null || home.getPurchase_value() <= 0 || home.getArea() <= 0 && !CommonUtil.isValidString(home.getHome_type())
 							|| !(home.getHome_type().equalsIgnoreCase("S") ||home.getHome_type().equalsIgnoreCase("M") || home.getHome_type().equalsIgnoreCase("C") || home.getHome_type().equalsIgnoreCase("T"))
 							|| !CommonUtil.isValidString(home.getSt_address()) || !CommonUtil.isValidString(home.getCity()) || !CommonUtil.isValidString(home.getState())
 							|| !CommonUtil.isValidString(home.getZipcode())) {
@@ -99,17 +99,16 @@ public class ApplyInsurance implements RequestHandler<ApplyInsuranceRequest, App
 				for(Vehicle vehicle : input.getVehicle()) {
 					if(vehicle == null || !CommonUtil.isValidString(vehicle.getVin()) || !CommonUtil.isValidString(vehicle.getMake()) ||
 							!CommonUtil.isValidString(vehicle.getModel()) || vehicle.getYear() == 0 ||
-							!CommonUtil.isValidString(vehicle.getVehicle_status())) {
+							!CommonUtil.isValidString(vehicle.getVehicle_status()) || 
+							vehicle.getDriverList() == null || vehicle.getDriverList().size()==0) {
 						return new ApplyInsuranceResponse(new Response(Constant.INVALID_INPUT, Constant.INVALID_INPUT_MSG));
 					}
-					if(vehicle.getDriverList() != null && vehicle.getDriverList().size()>0) {
 						for(Driver driver : vehicle.getDriverList()) {
 							if(driver == null || !CommonUtil.isValidString(driver.getLicence_number()) || !CommonUtil.isValidString(driver.getFirst_name())||
 									!CommonUtil.isValidString(driver.getLast_name())) {
 								return new ApplyInsuranceResponse(new Response(Constant.INVALID_INPUT, Constant.INVALID_INPUT_MSG));
 							}
 						}
-					}
 					count++;
 				}
 					int policyId = rand.nextInt(899999999)+100000000;

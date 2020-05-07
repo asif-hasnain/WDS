@@ -50,6 +50,8 @@ public class DBUtil {
 	
 	public static final String Home = "H";
 	public static final String Vehicle = "A";
+	public static final String Employee = "E";
+	public static final String Customer = "C";
 
 	public static boolean checkUniquenessOfUserId(int userId, Connection con) {
 		try {
@@ -345,11 +347,13 @@ public class DBUtil {
 					Invoice invoice = invoiceMap.getOrDefault(invoice_id, new Invoice(invoice_id, invoice_date,
 							payment_due_date, invoice_amount, policy_id, new ArrayList<Payment>(), invoice_amount));
 					double paymentDue = invoice.getPaymentDue();
-					Payment payment = new Payment(payment_id, payment_date, payment_method, payment_amount,invoice_id);
-					paymentDue -= payment_amount;
-					List<Payment> paymentList = invoice.getPaymentList();
-					paymentList.add(payment);
-					invoice.setPaymentList(paymentList);
+					if(payment_id != 0) {
+						Payment payment = new Payment(payment_id, payment_date, payment_method, payment_amount,invoice_id);
+						paymentDue -= payment_amount;
+						List<Payment> paymentList = invoice.getPaymentList();
+						paymentList.add(payment);
+						invoice.setPaymentList(paymentList);
+					}
 					invoice.setPaymentDue(paymentDue);
 					invoiceMap.put(invoice_id, invoice);
 				}
@@ -402,6 +406,7 @@ public class DBUtil {
 			statement.execute();
 			ResultSet resultSet = statement.getResultSet();
 			List<UserFeature> userFeatureList = ResultSetObjectMapper.mapRersultSetToObject(resultSet, UserFeature.class);
+			System.out.println("userFeatureList : "+userFeatureList);
 			statement.close();
 			if (userFeatureList != null && userFeatureList.size() == 1) {
 				return true;
@@ -424,6 +429,7 @@ public class DBUtil {
 			statement.execute();
 			ResultSet resultSet = statement.getResultSet();
 			List<Feature> featureList = ResultSetObjectMapper.mapRersultSetToObject(resultSet, Feature.class);
+			System.out.println("featureList" + featureList);
 			statement.close();
 			if (featureList != null && featureList.size() == 1) {
 				return featureList.get(0);
@@ -523,13 +529,13 @@ public class DBUtil {
 			System.out.println("Query: " + query);
 			CallableStatement statement = con.prepareCall(query);
 			statement.setInt(1, userId);
-			statement.setString(2, firstName);
-			statement.setString(3, lastName);
+			statement.setString(2, firstName.toUpperCase());
+			statement.setString(3, lastName.toUpperCase());
 			statement.setString(4, gender);
-			statement.setString(5, maritalStatus);
-			statement.setString(6, stAddress);
-			statement.setString(7, city);
-			statement.setString(8, state);
+			statement.setString(5, maritalStatus.toUpperCase());
+			statement.setString(6, stAddress.toUpperCase());
+			statement.setString(7, city.toUpperCase());
+			statement.setString(8, state.toUpperCase());
 			statement.setString(9, zipcode);
 			System.out.println(statement.toString());
 			boolean statementResultType = statement.execute();

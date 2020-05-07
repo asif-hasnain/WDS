@@ -1,9 +1,15 @@
 package com.nyu.wds.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
+
+import org.acegisecurity.util.EncryptionUtils;
+import org.acegisecurity.util.EncryptionUtils.EncryptionException;
 import org.bouncycastle.util.encoders.Hex;
 
 public class CommonUtil {
@@ -46,6 +52,12 @@ public class CommonUtil {
 		}
 	}
 	
-	
+	public static String encrypt(String value) throws EncryptionException, UnsupportedEncodingException {
+		return URLEncoder.encode(EncryptionUtils.encrypt("987654321012345678909876", value), "UTF-8");
+	}
+
+	public static String decryptKey(String encryptedKey) throws EncryptionException, UnsupportedEncodingException {
+		return (EncryptionUtils.decrypt("987654321012345678909876", URLDecoder.decode(encryptedKey)));
+	}
 	
 }
