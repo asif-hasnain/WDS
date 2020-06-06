@@ -21,7 +21,7 @@ public class ProvideAccess implements RequestHandler<ProvideAccessRequest, Respo
 		if(provideAccess) {
 			return new Response(Constant.SUCCESS, Constant.SUCCESS_MSG);
 		}
-		return new Response(Constant.DEFAULT_ERROR, Constant.DEFAULT_ERROR_MSG);
+		return new Response(Constant.DATA_NOT_AVAILABLE, Constant.DATA_NOT_AVAILABE_MSG);
 	}
 
 }
