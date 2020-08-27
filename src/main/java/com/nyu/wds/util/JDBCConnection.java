@@ -1,5 +1,7 @@
 package com.nyu.wds.util;
 
+import com.google.gson.Gson;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,8 +15,10 @@ public class JDBCConnection {
 		if(con == null) {
 			 System.out.println("Creating new JDBC Connection");
 		   try {
-			con = DriverManager.getConnection(
-			     "jdbc:mysql://wds.crpjfc57axcp.us-east-2.rds.amazonaws.com/wds", "asif", "asif54321");
+		   	String secret = CommonUtil.getSecret("wds", "us-east-2");
+		   	DBCredMapper cred = new Gson().fromJson(secret,DBCredMapper.class);
+			   con = DriverManager.getConnection(
+					   "jdbc:" + cred.getEngine()+"://"+cred.getHost()+"/"+cred.getDbInstanceIdentifier(), cred.getUsername(), cred.getPassword());
 			} catch (SQLException e) {
 				System.out.println("Error while creating new JDBC Connection");
 				e.printStackTrace();

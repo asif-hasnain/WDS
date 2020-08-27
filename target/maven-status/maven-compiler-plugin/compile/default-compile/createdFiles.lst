@@ -1,0 +1,14 @@
+com/nyu/wds/dbmapper/AutoInsurance.class
+com/nyu/wds/SignUp.class
+com/nyu/wds/ListCustomersResponse.class
+com/nyu/wds/Response.class
+com/nyu/wds/SignUpRequest.class
+com/nyu/wds/ProvideAccess.class
+com/nyu/wds/LoginResponse.class
+com/nyu/wds/dbmapper/User.class
+com/nyu/wds/dbmapper/VehicleDriver.class
+com/nyu/wds/util/ResultSetObjectMapper.class
+com/nyu/wds/UpdatePaymentResponse.class
+com/nyu/wds/UpdatePayment.class
+com/nyu/wds/ProvideAccessRequest.class
+com/nyu/wds/UpdatePaymentRequest.class
