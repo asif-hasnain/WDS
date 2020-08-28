@@ -1,7 +1,9 @@
 # WDS
-In our website for WDS Insurance company we have two views, one of customers and another for WDS employees. Below are the listed features for both the view of customer and employee. 
+Link : wds.asifhasnain.com
 
-System Design, Database design and SQL code can be found in the report.
+This website for WDS Insurance company we have two views, one of customers and another for WDS employees. Below are the listed features for both the view of customer and employee. 
+
+System Design, Database design and SQL code can be found in Report.pdf.
 
 ### For Customer
 * Create new account.
